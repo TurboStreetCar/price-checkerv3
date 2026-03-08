@@ -2,7 +2,7 @@ import os
 
 # filename of the text file
 file_name = "/logs/testlog.log"
-user = os.getenv("ROMEOS_USER")
+user = os.getenv("WEBSITE_USER")
 # text to be added (using \n for a new line)
 text_to_append = "This user: " + user + " has added a new line added to the file.\n"
 
