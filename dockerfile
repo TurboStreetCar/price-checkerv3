@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-# 1. Added 'cron' to your existing dependencies
+# 1. Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
@@ -10,29 +10,29 @@ RUN apt-get update && apt-get install -y \
     cron \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone to temporary location
-RUN git clone https://github.com/streamlit/streamlit-example.git /tmp/base_app
-RUN pip3 install -r /tmp/base_app/requirements.txt
+# 2. Setup temp directory structure
+RUN mkdir -p /tmp/base_app/scripts /tmp/base_app/cron
 
-# Add additional requirements
-COPY requirements2.txt /tmp/base_app
-RUN pip3 install -r /tmp/base_app/requirements2.txt
+# 3. Clone and install requirements
+RUN git clone https://github.com/streamlit/streamlit-example.git /tmp/base_app/repo_clone
+RUN pip3 install --no-cache-dir -r /tmp/base_app/repo_clone/requirements.txt
 
-# 2. Add the cron job file
-# Requirement: Filename MUST NOT have an extension (e.g., 'my-cron', NOT 'my-cron.txt')
-COPY fuel-cron /etc/cron.d/fuel-cron
+# 4. Copy your custom files into the temp staging area
+COPY requirements2.txt /tmp/base_app/
+COPY price-checker.py /tmp/base_app/scripts/
+COPY streamlit_app.py /tmp/base_app/scripts/
+COPY test.py /tmp/base_app/scripts/
+COPY fuel-cron /tmp/base_app/cron/
+COPY test-cron /tmp/base_app/cron/
 
-# 3. Set strict permissions (required by cron) and register it
-RUN chmod 0644 /etc/cron.d/fuel-cron && \
-    crontab /etc/cron.d/fuel-cron && \
-    touch /var/log/cron.log
+# 5. Install extra requirements
+RUN pip3 install --no-cache-dir -r /tmp/base_app/requirements2.txt
 
-# Add the initialization script
+# 6. Setup entrypoint
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 8501
 
-ENTRYPOINT ["entrypoint.sh", "streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-
-
+# Use the full path for the script just to be safe
+ENTRYPOINT ["entrypoint.sh", "streamlit", "run", "/app/streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
