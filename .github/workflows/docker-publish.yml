@@ -23,11 +23,11 @@ jobs:
       # Step 3: Build the Docker image
       - name: Build Docker image
         run: |
-          IMAGE_NAME=ghcr.io/turbostreetcar/price-checkerv2:latest
+          IMAGE_NAME=ghcr.io/turbostreetcar/price-checker:latest
           docker build . --file Dockerfile --tag $IMAGE_NAME
 
       # Step 4: Push the image to GHCR
       - name: Push Docker image
         run: |
-          IMAGE_NAME=ghcr.io/turbostreetcar/price-checkerv2:latest
+          IMAGE_NAME=ghcr.io/turbostreetcar/price-checker:latest
           docker push $IMAGE_NAME
