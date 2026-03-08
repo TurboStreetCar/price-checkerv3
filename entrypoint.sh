@@ -1,24 +1,26 @@
 #!/bin/bash
+set -e  # Exit immediately if a command fails
 
-# 1. Start the cron service in the background
+# 1. Start cron service
 service cron start
 
-# 2. Export environment variables for cron
-# Cron jobs run in a restricted shell and won't see your Docker ENV variables 
-# unless we explicitly save them to /etc/environment.
+# 2. Export ENV variables for cron
 printenv | grep -v "no_proxy" >> /etc/environment
 
-# 3. Existing logic: Check if streamlit_app.py exists
-if [ ! -f "/app/streamlit_app.py" ]; then
-    echo "Share is empty. Copying default streamlit App..."
-    cp -rp /tmp/base_app/streamlit_app.py /app/
-fi
+# 3. Ensure directories exist and copy files
+mkdir -p /app/scripts/ /etc/cron.d/
 
-# 4. Existing logic: Check if cron file exists
-if [ ! -f "/etc/cron.d/fuel-cron" ]; then
-    echo "Cron is empty. Copying default cron file..."
-    cp -rp /tmp/base_app/fuel-cron /app/
-fi
+[ ! -f "/app/streamlit_app.py" ] && cp /tmp/base_app/streamlit_app.py /app/
+[ ! -f "/etc/cron.d/fuel-cron" ] && cp /tmp/base_app/fuel-cron /etc/cron.d/
+[ ! -f "/app/scripts/price-checker.py" ] && cp /tmp/base_app/scripts/price-checker.py /app/scripts/
 
-# 5. Execute the streamlit command passed from Dockerfile
+# 4. Copy latest samples
+cp /tmp/base_app/scripts/test.py /app/scripts/
+cp /tmp/base_app/cron/test-cron /etc/cron.d/
+
+# 5. Set strict permissions (Cron requirement)
+chmod 0644 /etc/cron.d/*
+touch /var/log/cron.log
+
+# 6. Execute CMD
 exec "$@"
