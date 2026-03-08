@@ -4,7 +4,10 @@ WORKDIR /app
 
 # 1. Install dependencies
 RUN apt-get update && apt-get install -y \
+    default-libmysqlclient-dev \
     build-essential \
+    libmariadb-dev-compat \
+    libmariadb-dev \
     curl \
     git \
     cron \
