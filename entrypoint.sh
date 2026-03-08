@@ -10,8 +10,8 @@ printenv | grep -v "no_proxy" >> /etc/environment
 # 3. Ensure directories exist and copy files
 mkdir -p /app/scripts/ /etc/cron.d/
 
-[ ! -f "/app/streamlit_app.py" ] && cp /tmp/base_app/streamlit_app.py /app/
-[ ! -f "/etc/cron.d/fuel-cron" ] && cp /tmp/base_app/fuel-cron /etc/cron.d/
+[ ! -f "/app/streamlit_app.py" ] && cp /tmp/base_app/scripts/streamlit_app.py /app/
+[ ! -f "/etc/cron.d/fuel-cron" ] && cp /tmp/base_app/cron/fuel-cron /etc/cron.d/
 [ ! -f "/app/scripts/price-checker.py" ] && cp /tmp/base_app/scripts/price-checker.py /app/scripts/
 
 # 4. Copy latest samples
