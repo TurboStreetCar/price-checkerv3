@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone to temporary location
-RUN git clone https://github.com /tmp/base_app
+RUN git clone https://github.com/streamlit/streamlit-example.git /tmp/base_app
 RUN pip3 install -r /tmp/base_app/requirements.txt
 
 # Add additional requirements
