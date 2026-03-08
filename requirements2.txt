@@ -3,3 +3,6 @@ pandas
 streamlit
 sqlalchemy
 mysql-connector-python
+mariadb
+requests
+beautifulsoup4
