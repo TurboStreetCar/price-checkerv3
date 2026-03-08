@@ -21,8 +21,8 @@ def log_message(message):
     print(line, end="")
 
 # Website login from environment variables
-USERNAME = os.getenv("ROMEOS_USER")
-PASSWORD = os.getenv("ROMEOS_PASS")
+USERNAME = os.getenv("WEBSITE_USER")
+PASSWORD = os.getenv("WEBSITE_PASS")
 
 # Database config from environment variables
 db_config = {
@@ -34,7 +34,7 @@ db_config = {
 }
 
 session = requests.Session()
-login_url = "https://www.romeosfuel.com/loginAction"
+login_url = os.getenv("WEBSITE_URL") + "/loginAction"
 login_payload = {"username": USERNAME, "password": PASSWORD}
 
 try:
@@ -47,7 +47,7 @@ except requests.RequestException as e:
     log_message(f"Login request error: {e}")
     sys.exit(1)
 
-dashboard_url = "https://www.romeosfuel.com/dashboardRedirectAction"
+dashboard_url = os.getenv("WEBSITE_URL") +"/dashboardRedirectAction"
 try:
     response = session.get(dashboard_url)
 except requests.RequestException as e:
