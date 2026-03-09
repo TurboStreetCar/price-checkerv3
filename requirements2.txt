@@ -6,3 +6,7 @@ mysql-connector-python
 mariadb
 requests
 beautifulsoup4
+openmeteo-requests
+requests-cache
+retry-requests
+numpy pandas
