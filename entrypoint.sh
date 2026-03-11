@@ -8,9 +8,9 @@ service cron start
 printenv | grep -v "no_proxy" >> /etc/environment
 
 # 3. Ensure directories exist and copy files
-mkdir -p /app/scripts/ /etc/cron.d/ /logs/
+mkdir -p /app/scripts/ /app/www/ /etc/cron.d/ /logs/ 
 
-[ ! -f "/app/streamlit_app.py" ] && cp /tmp/base_app/scripts/streamlit_app.py /app/
+[ ! -f "/app/streamlit_app.py" ] && cp /tmp/base_app/scripts/streamlit_app.py /app/www/
 [ ! -f "/etc/cron.d/fuel-cron" ] && cp /tmp/base_app/cron/fuel-cron /etc/cron.d/
 [ ! -f "/app/scripts/price-checker.py" ] && cp /tmp/base_app/scripts/price-checker.py /app/scripts/
 
