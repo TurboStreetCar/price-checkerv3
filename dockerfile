@@ -22,6 +22,7 @@ RUN pip3 install --no-cache-dir -r /tmp/base_app/repo_clone/requirements.txt
 
 # 4. Copy your custom files into the temp staging area
 COPY requirements2.txt /tmp/base_app/
+COPY streamlit_app.py /tmp/base_app/www/
 
 # 5. Install extra requirements
 RUN pip3 install --no-cache-dir -r /tmp/base_app/requirements2.txt
