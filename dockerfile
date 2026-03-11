@@ -33,4 +33,4 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 EXPOSE 8501
 
 # Use the full path for the script just to be safe
-ENTRYPOINT ["entrypoint.sh", "streamlit", "run", "/app/streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["entrypoint.sh", "streamlit", "run", "/app/www/streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
