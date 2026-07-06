@@ -16,7 +16,13 @@ RUN apt-get update && apt-get install -y \
 # 2. Setup temp directory structure
 RUN mkdir -p /tmp/base_app/scripts /tmp/base_app/cron 
 
-# 6. Setup entrypoint
+# 3. Copy your custom files into the temp staging area
+COPY requirements2.txt /tmp/base_app/
+
+# 4. Install extra requirements
+RUN pip3 install --no-cache-dir -r /tmp/base_app/requirements2.txt
+
+# 5. Setup entrypoint
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
