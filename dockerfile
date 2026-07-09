@@ -7,6 +7,7 @@ WORKDIR /app
 # 1. Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
+    python3-dev \
     libmariadb-dev-compat \
     libmariadb-dev \
     curl \
