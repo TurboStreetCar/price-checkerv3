@@ -22,7 +22,11 @@ COPY requirements2.txt /tmp/base_app/
 # 4. Install extra requirements
 RUN pip3 install --no-cache-dir -r /tmp/base_app/requirements2.txt
 
-# 5. Setup entrypoint
+# 5. Download the headless Chromium browser binaries explicitly into the image layer
+# This prevents Playwright from attempting to download them at runtime when cron triggers
+RUN playwright install chromium
+
+# 6. Setup entrypoint
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
