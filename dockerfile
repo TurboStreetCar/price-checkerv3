@@ -1,4 +1,5 @@
-FROM python:3.9-slim
+# Use the official Playwright base image (pre-configured with browser system libraries)
+FROM ://microsoft.com
 
 WORKDIR /app
 
