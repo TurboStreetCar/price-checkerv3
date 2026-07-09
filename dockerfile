@@ -4,6 +4,9 @@ FROM mcr.microsoft.com/playwright/python:v1.45.0-jammy
 
 WORKDIR /app
 
+# Set the timezone environment variable permanently
+ENV TZ=America/New_York
+
 # 1. Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -13,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     cron \
+    tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Setup temp directory structure
